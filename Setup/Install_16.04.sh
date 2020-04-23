@@ -3,18 +3,18 @@
 ###########################
 # Docker SETUP
 ###########################
-apt-get update
-apt-get install -y docker.io
+#apt-get update
+#apt-get install -y docker.io
 
-echo "Docker Setup complete"
+#echo "Docker Setup complete"
 
 ###########################
 # NodeJS setup
 ###########################
-apt-get update
-apt-get install -y nodejs
-apt-get install -y npm
-echo "NodeJS setup Complete"
+#apt-get update
+#apt-get install -y nodejs
+#apt-get install -y npm
+#echo "NodeJS setup Complete"
 
 ###########################
 # Start Docker
