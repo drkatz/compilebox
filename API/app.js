@@ -6,21 +6,19 @@
 */
 
 
+const express = require('express');
+const http = require('http');
+const arr = require('./compilers');
+const sandBox = require('./DockerSandbox');
+const bodyParser = require('body-parser');
+const app = express();
+const server = http.createServer(app);
+const port = 8080;
 
 
-var express = require('express');
-var http = require('http');
-var arr = require('./compilers');
-var sandBox = require('./DockerSandbox');
-var bodyParser = require('body-parser');
-var app = express();
-var server = http.createServer(app);
-var port=8080;
-
-
-var ExpressBrute = require('express-brute');
-var store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
-var bruteforce = new ExpressBrute(store,{
+const ExpressBrute = require('express-brute');
+const store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
+const bruteforce = new ExpressBrute(store, {
     freeRetries: 50,
     lifetime: 3600
 });
@@ -46,17 +44,17 @@ function random(size) {
 app.post('/compile',bruteforce.prevent,function(req, res) 
 {
 
-    var language = req.body.language;
-    var code = req.body.code;
-    var stdin = req.body.stdin;
-   
-    var folder= 'temp/' + random(10); //folder in which the temporary folder will be saved
-    var path=__dirname+"/"; //current working path
-    var vm_name='virtual_machine'; //name of virtual machine that we want to execute
-    var timeout_value=20;//Timeout Value, In Seconds
+    const language = req.body.language;
+    const code = req.body.code;
+    const stdin = req.body.stdin;
+
+    const folder = 'temp/' + random(10); //folder in which the temporary folder will be saved
+    const path = __dirname + "/"; //current working path
+    const vm_name = 'virtual_machine'; //name of virtual machine that we want to execute
+    const timeout_value = 20;//Timeout Value, In Seconds
 
     //details of this are present in DockerSandbox.js
-    var sandboxType = new sandBox(timeout_value,path,folder,vm_name,arr.compilerArray[language][0],arr.compilerArray[language][1],code,arr.compilerArray[language][2],arr.compilerArray[language][3],arr.compilerArray[language][4],stdin);
+    const sandboxType = new sandBox(timeout_value, path, folder, vm_name, arr.compilerArray[language][0], arr.compilerArray[language][1], code, arr.compilerArray[language][2], arr.compilerArray[language][3], arr.compilerArray[language][4], stdin);
 
 
     //data will contain the output of the compiled/interpreted code
@@ -75,5 +73,5 @@ app.get('/', function(req, res)
     res.sendfile("./index.html");
 });
 
-console.log("Listening at "+port)
+console.log("Listening at",port);
 server.listen(port);
